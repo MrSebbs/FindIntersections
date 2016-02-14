@@ -31,6 +31,6 @@
 *.sdf
 *.suo
 
-/x64
+/FindIntersections/x64
 /Debug
 /OctreeProj/Debug
