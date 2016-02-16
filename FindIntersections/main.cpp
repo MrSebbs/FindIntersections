@@ -21,6 +21,8 @@ bool y_desc(vector2f* first, vector2f* second) {
 		return (first->x < second->x);
 }
 
+void handleEventPoint(vector2f* p);
+
 int main(int arg, char** argv) {
 
 	//Data entry
@@ -36,12 +38,14 @@ int main(int arg, char** argv) {
 	eventList.getList()->sort(y_desc);
 	//cout << eventList.print() << endl;
 
+	/*
 	Intersection* a = new Intersection(new vector2f(0.7, 3));
 	Intersection* b = new Intersection(new vector2f(8, 13));
 	Intersection* c = new Intersection(new vector2f(-2, -13));
 	eventList.addPoint(a->getPoint());
 	eventList.addPoint(b->getPoint());
 	eventList.addPoint(c->getPoint());
+	*/
 
 	cout << eventList.print() << endl;
 	cout << eventList.printFathers() << endl;
@@ -55,12 +59,17 @@ int main(int arg, char** argv) {
 	status->addPoint(*(++i));
 	status->print();
 
-	
 
 	//Aquí comença l'algorisme!!
-
+	while (!eventList.isEmpty()) {
+		handleEventPoint(eventList.getNext());
+		eventList.removeFront();
+	}
 
 	system("pause");
 	return 0;
 }
 
+void handleEventPoint(vector2f* p) {
+
+}

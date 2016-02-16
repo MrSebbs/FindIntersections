@@ -24,8 +24,21 @@ public:
 		//evList.sort(y_desc);
 	}
 
+	//Dischard
 	list <vector2f*> * getList() {
 		return &evList;
+	}
+
+	bool isEmpty() {
+		return evList.empty();
+	}
+
+	vector2f* getNext() {
+		return evList.front();
+	}
+
+	void removeFront() {
+		return evList.pop_front();
 	}
 
 	void addPoint(vector2f* p) {
