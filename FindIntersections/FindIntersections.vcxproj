@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="eventList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="status.cpp" />
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>

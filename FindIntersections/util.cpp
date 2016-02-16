@@ -81,8 +81,16 @@ string Segment::print() {
 }
 
 //class intersection
+Intersection::Intersection(vector2f* p): intr(p){
+	p->intr = this;
+}
+
 Intersection::Intersection(Segment* S, Segment* Q): first(S), second(Q){
 
+}
+
+vector2f* Intersection::getPoint() {
+	return intr;
 }
 
 Segment* Intersection::getFirst() {
@@ -91,6 +99,12 @@ Segment* Intersection::getFirst() {
 
 Segment* Intersection::getSecond() {
 	return second;
+}
+
+string Intersection::print() {
+	stringstream ss;
+	ss << "Intersection point: " << intr->print();
+	return ss.str();
 }
 
 

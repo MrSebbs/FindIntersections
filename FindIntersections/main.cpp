@@ -3,6 +3,7 @@
 #include <sstream>
 #include <list>
 #include "EventList.cpp"
+#include "Status.cpp"
 
 using namespace std;
 
@@ -20,38 +21,6 @@ bool y_desc(vector2f* first, vector2f* second) {
 		return (first->x < second->x);
 }
 
-//S'haurà de modificar addPoint dins de eventList
-void addToStatus(list <Segment*> * status, vector2f* p) {
-	list<Segment*>::iterator i = status->begin();
-	for (i; i != status->end(); i++) {
-		if (((*i)->getStart())->x >= p->x) {
-			break;
-		}
-	}
-	
-	if (p->father != NULL) {
-		p->setStart();
-		status->insert(i, p->father);
-	}
-	else {
-		status->insert(i, new Segment(p, NULL));
-	}
-}
-
-void printStatus(list <Segment*> * status) {
-	cout << "Status: " << endl;
-	for (list<Segment*>::iterator i = status->begin(); i != status->end(); i++) {
-		if ((*i)->getEnd() != NULL) {
-			cout << (*i)->print() << endl;
-		}
-		else {
-			cout << "Intersection Point: " << ((*i)->getStart())->print() << endl;
-		}	
-	}
-	cout << endl;
-	
-}
-
 int main(int arg, char** argv) {
 
 	//Data entry
@@ -66,21 +35,29 @@ int main(int arg, char** argv) {
 	EventList eventList = EventList(&data);
 	eventList.getList()->sort(y_desc);
 	//cout << eventList.print() << endl;
-	eventList.addPoint(new vector2f(0.7, 3));
-	eventList.addPoint(new vector2f(8, 13));
-	eventList.addPoint(new vector2f(-2, -13));
+
+	Intersection* a = new Intersection(new vector2f(0.7, 3));
+	Intersection* b = new Intersection(new vector2f(8, 13));
+	Intersection* c = new Intersection(new vector2f(-2, -13));
+	eventList.addPoint(a->getPoint());
+	eventList.addPoint(b->getPoint());
+	eventList.addPoint(c->getPoint());
+
 	cout << eventList.print() << endl;
 	cout << eventList.printFathers() << endl;
 
-	list <Segment*> status;
+	Status* status = new Status();
 	//printStatus(&status);
 	list <vector2f*> ::iterator i = (eventList.getList())->begin();
-	addToStatus(&status, *i);
-	addToStatus(&status, *(++i));
-	addToStatus(&status, *(++i));
-	addToStatus(&status, *(++i));
-	printStatus(&status);
+	status->addPoint(*i);
+	status->addPoint(*(++i));
+	status->addPoint(*(++i));
+	status->addPoint(*(++i));
+	status->print();
 
+	
+
+	//Aquí comença l'algorisme!!
 
 
 	system("pause");

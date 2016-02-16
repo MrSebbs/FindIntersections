@@ -50,9 +50,12 @@ private:
 	Segment* second;
 
 public:
+	Intersection(vector2f* p);
 	Intersection(Segment* S, Segment* Q);
+	vector2f* getPoint();
 	Segment* getFirst();
 	Segment* getSecond();
+	string print();
 };
 
 #endif
