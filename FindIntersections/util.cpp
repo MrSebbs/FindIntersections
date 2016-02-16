@@ -1,74 +1,97 @@
-#ifndef UTIL
-#define UTIL
+#ifndef UTIL_CPP
+#define UTIL_CPP
 
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <list>
+#include "util.h"
 using namespace std;
 
-class segment;
+// class vector2f
 
-class vector2f {
+vector2f::vector2f(float x, float y) : x(x), y(y) {
+	father = NULL;
+	intr = NULL;
+}
 
-public:
-	float x;
-	float y;
-	segment* father;
+vector2f::vector2f(float x, float y, Intersection* intr): x(x), y(y), intr(intr) {
+	father = NULL;
+}
 
-	vector2f(float x, float y) : x(x), y(y) {}
-
-	void setFather(segment* s) {
-		father = s;
+void vector2f::setStart() {
+	if (father->getEnd() == this) {
+		father->swapStartToEnd();
 	}
+}
 
-	string print() {
-		stringstream ss;
-		ss << "(" << x << ", " << y << ")";
-		return ss.str();
-	}
+void vector2f::setFather(Segment* s) {
+	father = s;
+}
 
-	//string printFather();
+string vector2f::print() {
+	stringstream ss;
+	ss << "(" << x << ", " << y << ")";
+	return ss.str();
+}
 
-};
+string vector2f::printFather() {
+	return "";
+}
 
-class segment {
-
-private:
-	vector2f* S;
-	vector2f* E;
-
-public:
-
-	segment(vector2f* A, vector2f* B) {
-		S = A;
-		S->setFather(this);
-
-		E = B;
+// class segment
+Segment::Segment(vector2f* A, vector2f* B) {
+	S = A;
+	E = B;
+	S->setFather(this);
+	if (B != NULL) {
 		E->setFather(this);
 	}
+}
 
-	vector2f* getStart() {
-		return S;
-	}
+vector2f* Segment::getStart() {
+	return S;
+}
 
-	vector2f* getEnd() {
+vector2f* Segment::getEnd() {
+	return E;
+}
+
+vector2f* Segment::getOpposite(vector2f* A) {
+	if (S == A)
 		return E;
-	}
+	else if (E == A)
+		return S;
+	else
+		cout << "getOpposite(vector2f*) ERROR: vector2f not found" << endl;
+	return NULL;
 
-	void swap() {
-		vector2f* aux = S;
-		S = E;
-		E = aux;
-	}
+}
 
-	string print() {
-		stringstream ss;
-		ss << "Segment from " << S->print() << " to " << E->print();
-		return ss.str();
-	}
+void Segment::swapStartToEnd() {
+	vector2f* aux = S;
+	S = E;
+	E = aux;
+}
 
-};
+string Segment::print() {
+	stringstream ss;
+	ss << "Segment from " << S->print() << " to " << E->print();
+	return ss.str();
+}
+
+//class intersection
+Intersection::Intersection(Segment* S, Segment* Q): first(S), second(Q){
+
+}
+
+Segment* Intersection::getFirst() {
+	return first;
+}
+
+Segment* Intersection::getSecond() {
+	return second;
+}
 
 
 #endif

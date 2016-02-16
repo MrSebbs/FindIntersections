@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 #include <list>
-#include "util.cpp"
+#include "util.h"
 using namespace std;
 
 
@@ -16,8 +16,8 @@ private:
 
 public:
 
-	EventList(list <segment> * data) {
-		for (list<segment>::iterator i = data->begin(); i != data->end(); i++) {
+	EventList(list <Segment> * data) {
+		for (list<Segment>::iterator i = data->begin(); i != data->end(); i++) {
 			evList.push_back(i->getStart());
 			evList.push_back(i->getEnd());
 		}
@@ -29,12 +29,13 @@ public:
 	}
 
 	void addPoint(vector2f* p) {
-		for (list <vector2f*>::iterator i = evList.begin(); i != evList.end(); i++) {
+		list <vector2f*>::iterator i = evList.begin();
+		for (i; i != evList.end(); i++) {
 			if ((*i)->y < p->y || (*i)->y == p->y && (*i)->x >= p->x) {
-				evList.insert(i, p);
 				break;
 			}
 		}
+		evList.insert(i, p);
 	}
 
 	string print() {
@@ -42,6 +43,18 @@ public:
 		ss << "EventList:" << endl;
 		for (list <vector2f*>::iterator i = evList.begin(); i != evList.end(); i++) {
 			ss << (*i)->print() << endl;
+		}
+		return ss.str();
+	}
+
+	string printFathers() {
+		stringstream ss;
+		ss << "Fathers:" << endl;
+		for (list <vector2f*>::iterator i = evList.begin(); i != evList.end(); i++) {
+			if ((*i)->father != NULL)
+				ss << ((*i)->father)->print() << endl;
+			else
+				ss << "NULL" << endl;
 		}
 		return ss.str();
 	}
