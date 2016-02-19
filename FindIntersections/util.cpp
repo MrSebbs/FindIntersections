@@ -101,7 +101,7 @@ bool PairOfSegments::checkIntersection() {
 	float det_CB_CD = CB.x * CD.y - CB.y * CD.x;
 	float producte_C = det_CA_CD * det_CB_CD;
 
-	cout << producte_C << endl;
+	//cout << producte_C << endl;
 
 	vector2f AC = vector2f(C.x - A.x, C.y - A.y);
 	vector2f AD = vector2f(D.x - A.x, D.y - A.y);
@@ -111,7 +111,7 @@ bool PairOfSegments::checkIntersection() {
 	float det_AD_AB = AD.x * AB.y - AD.y * AB.x;
 	float producte_A = det_AC_AB * det_AD_AB;
 
-	cout << producte_A << endl;
+	//cout << producte_A << endl;
 
 	if (producte_C < 0 & producte_A < 0) {
 		return true;

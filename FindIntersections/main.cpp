@@ -34,14 +34,26 @@ int main(int arg, char** argv) {
 	(eventList->getList())->sort(y_desc);
 	
 	while (!eventList->isEmpty()) {
+		//cout << eventList->print() << endl;
+		//printStatus();
 		vector2f* p = eventList->getNext();
 		if (p->father != NULL)
-			addPoint(p);
+			addPoint(p);	//Si és un Segment modifiquem l'status
 		else if (p->intr != NULL)
-			swapStatus(p->intr);
+			swapStatus(p->intr);	//Si és un punt d'intersecció fem un Swap
 
 		eventList->removeFront();
 	}
+
+	cout << endl << "OUTPUT:" << endl;
+	for (list<vector2f*>::iterator i = save.begin(); i != save.end(); i++){
+		cout << (*i)->intr->print() << endl;
+		cout << (*i)->intr->getFirst()->print() << endl;
+		cout << (*i)->intr->getSecond()->print() << endl;
+		cout << endl;
+
+	}
+
 	system("pause");
 	return 0;
 }
@@ -106,7 +118,7 @@ bool isChecked(vector2f* s, vector2f* q) {
 }
 
 void check(PairOfSegments* pair) {
-	cout << "CHECK : " << endl;
+	cout << "CHECK: " << endl;
 	cout << pair->getFirst()->print() << endl;
 	cout << pair->getSecond()->print() << endl;
 	if (pair->checkIntersection()){
@@ -123,17 +135,6 @@ void check(PairOfSegments* pair) {
 
 void swapStatus(PairOfSegments* pair) {
 	cout << "SWAP" << endl << endl;
-
-	/*
-	status.remove(pair->getFirst()->getStart());
-	status.remove(pair->getSecond()->getStart());
-
-	pair->getFirst()->getEnd()->setStart();
-	pair->getSecond()->getEnd()->setStart();
-	*/
-
-
-
 }
 
 void printStatus() {
