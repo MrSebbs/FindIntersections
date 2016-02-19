@@ -43,6 +43,7 @@ string vector2f::printFather() {
 Segment::Segment(vector2f* A, vector2f* B) {
 	S = A;
 	E = B;
+	inStatus = false;
 	S->setFather(this);
 	if (B != NULL) {
 		E->setFather(this);
@@ -81,12 +82,59 @@ string Segment::print() {
 }
 
 //class intersection
-Intersection::Intersection(vector2f* p): intr(p){
+Intersection::Intersection(vector2f* p): intr(p){	//Eliminarlo
 	p->intr = this;
+	bool check = true;
 }
 
 Intersection::Intersection(Segment* S, Segment* Q): first(S), second(Q){
+	bool check = false;
+}
 
+bool Intersection::checkIntersection() {
+	vector2f A = *(first->getStart());
+	vector2f B = *(first->getEnd());
+	vector2f C = *(second->getStart());
+	vector2f D = *(second->getEnd());
+
+	vector2f CA = vector2f(A.x - C.x, A.y - C.y);
+	vector2f CB = vector2f(B.x - C.x, B.y - C.y);
+	vector2f CD = vector2f(D.x - C.x, D.y - C.y);
+
+	float det_CA_CD = CA.x * CD.y - CA.y * CD.x;
+	float det_CB_CD = CB.x * CD.y - CB.y * CD.x;
+	float producte_C = det_CA_CD * det_CB_CD;
+
+	vector2f AC = vector2f(C.x - A.x, C.y - A.y);
+	vector2f AD = vector2f(D.x - A.x, D.y - A.y);
+	vector2f AB = vector2f(B.x - A.x, B.y - A.y);
+
+	float det_AC_AD = CA.x * CD.y - CA.y * CD.x;
+	float det_AB_AD = AB.x * AD.y - AB.y * AD.x;
+	float producte_A = det_AC_AD * det_AB_AD;
+
+	if (producte_C < 0 & producte_A < 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}
+
+vector2f* Intersection::computeIntersection() {	//TODO
+
+
+
+	return new vector2f(0.0, 0.0);
+}
+
+void Intersection::setCheck(bool b) {
+	check = b;
+}
+
+bool Intersection::getCheck() {
+	return check;
 }
 
 vector2f* Intersection::getPoint() {

@@ -34,6 +34,7 @@ private:
 	vector2f* E;
 
 public:
+	bool inStatus;
 	Segment(vector2f* A, vector2f* B);
 	vector2f* getStart();
 	vector2f* getEnd();
@@ -48,10 +49,16 @@ private:
 	vector2f* intr;
 	Segment* first;
 	Segment* second;
+	bool check;
+	bool exists;
 
 public:
 	Intersection(vector2f* p);
 	Intersection(Segment* S, Segment* Q);
+	bool checkIntersection();
+	vector2f* computeIntersection();
+	void setCheck(bool b);
+	bool getCheck();
 	vector2f* getPoint();
 	Segment* getFirst();
 	Segment* getSecond();

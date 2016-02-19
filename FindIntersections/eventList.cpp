@@ -15,7 +15,6 @@ private:
 	list <vector2f*> evList;
 
 public:
-
 	EventList(list <Segment> * data) {
 		for (list<Segment>::iterator i = data->begin(); i != data->end(); i++) {
 			evList.push_back(i->getStart());
