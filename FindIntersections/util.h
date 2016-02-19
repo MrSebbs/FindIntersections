@@ -9,7 +9,7 @@ using namespace std;
 
 
 class Segment;
-class Intersection;
+class PairOfSegments;
 
 class vector2f
 {
@@ -17,10 +17,11 @@ public:
 	float x;
 	float y;
 	Segment* father;
-	Intersection* intr;
+	PairOfSegments* intr;
+	//vector2f* statusPosition;
 
 	vector2f(float x, float y);
-	vector2f::vector2f(float x, float y, Intersection* intr);
+	vector2f(float x, float y, PairOfSegments* intr);
 	void setStart();
 	void setFather(Segment* s);
 	string print();
@@ -43,22 +44,17 @@ public:
 	string print();
 };
 
-class Intersection
+class PairOfSegments
 {
 private:
 	vector2f* intr;
 	Segment* first;
 	Segment* second;
-	bool check;
-	bool exists;
 
 public:
-	Intersection(vector2f* p);
-	Intersection(Segment* S, Segment* Q);
+	PairOfSegments(Segment* S, Segment* Q);
 	bool checkIntersection();
-	vector2f* computeIntersection();
-	void setCheck(bool b);
-	bool getCheck();
+	void computeIntersection();
 	vector2f* getPoint();
 	Segment* getFirst();
 	Segment* getSecond();

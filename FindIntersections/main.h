@@ -12,13 +12,15 @@ using namespace std;
 
 EventList* eventList;
 list <vector2f*> status;
+list <PairOfSegments*> checks;
+list <vector2f*> save;
 
 void addPoint(vector2f* p);
-
 void insertToStatus(vector2f* p);
-
-void print(list <vector2f*> status);
-
+bool isChecked(vector2f* s, vector2f* q);
+void check(PairOfSegments* pair);
+void swapStatus(PairOfSegments* pair);
+void printStatus();
 
 #endif
 

@@ -9,13 +9,12 @@
 using namespace std;
 
 // class vector2f
-
 vector2f::vector2f(float x, float y) : x(x), y(y) {
 	father = NULL;
 	intr = NULL;
 }
 
-vector2f::vector2f(float x, float y, Intersection* intr): x(x), y(y), intr(intr) {
+vector2f::vector2f(float x, float y, PairOfSegments* intr): x(x), y(y), intr(intr) {
 	father = NULL;
 }
 
@@ -77,21 +76,18 @@ void Segment::swapStartToEnd() {
 
 string Segment::print() {
 	stringstream ss;
-	ss << "Segment from " << S->print() << " to " << E->print();
+	if (S != NULL & E != NULL) {
+		ss << "Segment from " << S->print() << " to " << E->print();
+	}else if (S != NULL) {
+		ss << "Intersection at: " << S->print();
+	}
 	return ss.str();
 }
 
-//class intersection
-Intersection::Intersection(vector2f* p): intr(p){	//Eliminarlo
-	p->intr = this;
-	bool check = true;
-}
+//class PairOfSegments
+PairOfSegments::PairOfSegments(Segment* S, Segment* Q): first(S), second(Q){}
 
-Intersection::Intersection(Segment* S, Segment* Q): first(S), second(Q){
-	bool check = false;
-}
-
-bool Intersection::checkIntersection() {
+bool PairOfSegments::checkIntersection() {
 	vector2f A = *(first->getStart());
 	vector2f B = *(first->getEnd());
 	vector2f C = *(second->getStart());
@@ -105,13 +101,17 @@ bool Intersection::checkIntersection() {
 	float det_CB_CD = CB.x * CD.y - CB.y * CD.x;
 	float producte_C = det_CA_CD * det_CB_CD;
 
+	cout << producte_C << endl;
+
 	vector2f AC = vector2f(C.x - A.x, C.y - A.y);
 	vector2f AD = vector2f(D.x - A.x, D.y - A.y);
 	vector2f AB = vector2f(B.x - A.x, B.y - A.y);
 
-	float det_AC_AD = CA.x * CD.y - CA.y * CD.x;
-	float det_AB_AD = AB.x * AD.y - AB.y * AD.x;
-	float producte_A = det_AC_AD * det_AB_AD;
+	float det_AC_AB = AC.x * AB.y - AC.y * AB.x;
+	float det_AD_AB = AD.x * AB.y - AD.y * AB.x;
+	float producte_A = det_AC_AB * det_AD_AB;
+
+	cout << producte_A << endl;
 
 	if (producte_C < 0 & producte_A < 0) {
 		return true;
@@ -122,36 +122,35 @@ bool Intersection::checkIntersection() {
 
 }
 
-vector2f* Intersection::computeIntersection() {	//TODO
+void PairOfSegments::computeIntersection() {
+	float m1 = ((first->getEnd())->y - (first->getStart())->y) / ((first->getEnd())->x - (first->getStart())->x);
+	float m2 = ((second->getEnd())->y - (second->getStart())->y) / ((second->getEnd())->x - (second->getStart())->x);
+	float n1 = (first->getStart())->y - m1 * (first->getStart())->x;
+	float n2 = (second->getStart())->y - m2 * (second->getStart())->x;
 
+	float x = (n2 - n1) / (m1 - m2);
+	float y = m1 * x + n1;
 
-
-	return new vector2f(0.0, 0.0);
+	intr = new vector2f(x, y, this);
 }
 
-void Intersection::setCheck(bool b) {
-	check = b;
-}
-
-bool Intersection::getCheck() {
-	return check;
-}
-
-vector2f* Intersection::getPoint() {
+vector2f* PairOfSegments::getPoint() {
 	return intr;
 }
 
-Segment* Intersection::getFirst() {
+Segment* PairOfSegments::getFirst() {
 	return first;
 }
 
-Segment* Intersection::getSecond() {
+Segment* PairOfSegments::getSecond() {
 	return second;
 }
 
-string Intersection::print() {
+string PairOfSegments::print() {
 	stringstream ss;
-	ss << "Intersection point: " << intr->print();
+	if (intr != NULL) {
+		ss << "Intersection point: " << intr->print();
+	}
 	return ss.str();
 }
 

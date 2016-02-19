@@ -20,7 +20,6 @@ public:
 			evList.push_back(i->getStart());
 			evList.push_back(i->getEnd());
 		}
-		//evList.sort(y_desc);
 	}
 
 	//Dischard
